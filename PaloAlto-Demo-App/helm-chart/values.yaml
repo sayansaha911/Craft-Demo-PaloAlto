@@ -5,7 +5,7 @@ replicaCount: 1
 
 image:
   repository: sayansaha911/go-k8s 
-  tag: 0.1.0
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
