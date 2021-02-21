@@ -1,0 +1,9 @@
+*.terraform*
+*.tfstate*
+lock.*
+**/plan
+terraform-provider-*
+_archive
+**/secret.auto.tfvars
+**/certs/*
+**/keys/*
