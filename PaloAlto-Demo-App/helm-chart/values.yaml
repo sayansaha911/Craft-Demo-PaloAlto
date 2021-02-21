@@ -23,4 +23,9 @@ resources:
     cpu: 100m
     memory: 128Mi
 
+hpa:
+  maxReplicas: 10
+  cpu: 50
+  memory: 50
+
 
