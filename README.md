@@ -74,13 +74,10 @@ ip-xxxxxxxxx.ec2.internal    Ready    <none>   43m   v1.17.12-eks-7684af
 3. Then build the docker image and push it to image registry
    docker build -t <app-name>:<app-version> . && docker push <app-name>:<app-version>
 5. Run the below command to provision the demo web-app on the EKS cluster
-   helm install demo-app ./helm-install/. --set image.repository=<app-name>:<app-version>
-3. Verify the webapp deployment by running below command and the webapp demo-app should show here
-   kubectl get deployment
-5. Also verify hpa by running
-   kubectl get hpa
-7. Once confirmed fetch the ALB DNS name by running below command
-   terraform Output
+        helm install demo-app ./helm-install/. --set image.repository=<app-name>:<app-version>
+3. Verify the webapp deployment by running "kubectl get deployment" and the webapp demo-app should show here
+5. Also verify hpa by running "kubectl get hpa"
+7. Once confirmed fetch the ALB DNS name by running "terraform output"
 8. Open a browser and browse to the website
 9. A static web content should welcome you.
 
