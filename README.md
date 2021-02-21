@@ -34,7 +34,7 @@ https://golang.org/doc/install
 6. Install eksctl
 https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html
 
-7. aws-iam-authenticator
+7. Install aws-iam-authenticator
 https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
 
 8. Run AWS Configure and configure credentials region. Please note that region should be set to where the infra is to be provisioned
