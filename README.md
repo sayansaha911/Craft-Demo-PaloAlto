@@ -72,7 +72,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.h
 8. Install helm
 https://helm.sh/docs/intro/install/
 
-9. Run "aws configure" and configure credentials and region. Please note that region should be set to where the infra is to be provisioned
+9. Run "aws configure" and configure credentials, set region as "us-east-1". Note: If you wish to deploy to a different region then please update the "location" field in PaloAlto-Craft-Demo/PaloAlto-Demo-Infra/override.auto.tfvars as well.
 
 10. Run "docker login" and authenticate to your image registry
 
