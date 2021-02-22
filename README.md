@@ -120,10 +120,13 @@ NOTE: Before the code is deployed please complete the pre-requisites from the pr
 1. Once the infrstructure is provisioned, navigate to the PaloAlto-Demo-Infra/app-code directory
 
 2. Compile the go code by running below and 
+        
         GOOS=linux GOARCH=amd64 go build -tags netgo -o http-sample && cd ..
 3. Then build the docker image and push it to image registry
+        
         docker build -t $app-name:$app-version . && docker push $app-name:$app-version
 5. Run the below command to provision the demo web-app on the EKS cluster
+        
         helm install demo-app ./helm-install/. --set image.repository=$app-name:$app-version
 
 6. OR Instead of running Steps 2,3 and 4, you can alternatively run the app-deploy.sh with the necessary inputs and it will do all those for you
