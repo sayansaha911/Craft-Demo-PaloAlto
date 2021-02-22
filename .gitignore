@@ -7,4 +7,3 @@ _archive
 **/secret.auto.tfvars
 **/certs/*
 **/keys/*
-*README.md

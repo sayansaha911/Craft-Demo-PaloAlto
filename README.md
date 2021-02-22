@@ -1,10 +1,27 @@
 # Craft-Demo-PaloAlto
 
-This repo has codes to do the follwong tasks:
+This repo has codes to do the following tasks:
 
-1. Provision an EKS cluster in AWS along with VPCs, Self-Managed Node Group with 2 Instances, 1 separate Bastion EC2 Instance and Application Load Balancer to route Traffic to the EKS nodes.
+1. Provisions an AWS EKS cluster with the below components:
+    a. VPC
+    b. Private and Public Subnets
+    c. IGW, NGW and Route Tables
+    d. EKS Cluster
+    e. Launch Template and Autoscaling Group to launch Instances which will bootstrap to the EKS Control Plane
+    f. An ALB which listens on port 80 and forwards traffic to the EKS nodes on nodeport 30080 
+    f. One EC2 bastion Host to access the worker nodes which are running in Private Subnet
 
-2. A golang web-application, which is compiled to a docker image, docker image is pushed to image registry and a helm chart deploys the image to the EKS cluster as a deployment, along with HPA and Nodeport service
+2. A golang web-application like below:
+    a. The application is compiled with Go Lang
+    b. A docker image is built with the Go code and pushed to registry
+    c. A helm chart to deploy the web app
+    d. The helm chart deploys the app deployment, a hpa and a nodeport service
+
+3. A homebrewed simple CI/CD shell script which can:
+    a. Compile small changes in the Go code located at PaloAlto-Craft-Demo/PaloAlto-Demo-App/app-code/http-sample.go
+    b. Build a docker image based on these changes
+    c. Push the image to a image registry
+    d. Deploy/Upgrade the web app to the EKS cluster with helm install/upgrade
 
 
 # Objective
@@ -37,7 +54,10 @@ https://docs.aws.amazon.com/eks/latest/userguide/eksctl.html
 7. Install aws-iam-authenticator
 https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.html
 
-8. Run "aws configure" and configure credentials and region. Please note that region should be set to where the infra is to be provisioned
+8. Install helm
+https://helm.sh/docs/intro/install/
+
+9. Run "aws configure" and configure credentials and region. Please note that region should be set to where the infra is to be provisioned
 
 
 # How to Use
@@ -69,20 +89,19 @@ ip-xxxxxxxxx.ec2.internal    Ready    <none>   43m   v1.17.12-eks-7684af
 # Webapp provisioning
     
 1. Once the infrstructure is provisioned, navigate to the PaloAlto-Demo-Infra/app-code directory
+
 2. Compile the go code by running below and 
    GOOS=linux GOARCH=amd64 go build -tags netgo -o http-sample && cd ..
 3. Then build the docker image and push it to image registry
    docker build -t <app-name>:<app-version> . && docker push <app-name>:<app-version>
 5. Run the below command to provision the demo web-app on the EKS cluster
         helm install demo-app ./helm-install/. --set image.repository=<app-name>:<app-version>
-3. Verify the webapp deployment by running "kubectl get deployment" and the webapp demo-app should show here
-5. Also verify hpa by running "kubectl get hpa"
-7. Once confirmed fetch the ALB DNS name by running "terraform output"
-8. Open a browser and browse to the website
-9. A static web content should welcome you.
+
+6. OR Instead of running Steps 2,3 and 4, you can alternatively run the app-deploy.sh with the necessary inputs and it will do all those for you
+7. Verify the webapp deployment by running "kubectl get deployment" and the webapp demo-app should show here
+8. Also verify hpa by running "kubectl get hpa"
+9. Once confirmed fetch the ALB DNS name by running "terraform output"
+10. Open a browser and browse to the website
+11. A static web content should welcome you
 
 Note: Please replace the placeholders <> with actual values
-
-
-
-
