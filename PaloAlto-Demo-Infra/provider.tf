@@ -4,9 +4,9 @@ terraform {
       source  = "hashicorp/aws"
       version = "=3.13.0"
     }
-   
+
     eksctl = {
-      source = "mumoshu/eksctl"
+      source  = "mumoshu/eksctl"
       version = "0.15.1"
     }
   }

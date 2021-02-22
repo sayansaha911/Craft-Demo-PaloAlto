@@ -10,7 +10,7 @@ locals {
   public_subnet_ids  = [module.networking.public_subnet_aza, module.networking.public_subnet_azb]
 }
 
-module networking {
+module "networking" {
   source = "./modules/networking"
 
   #vpc_cidr                = var.vpc_cidr
@@ -32,9 +32,9 @@ module "eks" {
   #eks_node_sg_id = module.self-managed-node-group.eks_node_sg_id
   #eks_node_role = module.self-managed-node-group.eks_node_role
   ec2_sg_id_for_ssh = module.ec2.ec2_sg_id_for_ssh
-  location = var.location
+  location          = var.location
 
-   
+
 }
 
 #
@@ -58,7 +58,7 @@ module "self-managed-node-group" {
 
   eks_cluster_sg   = module.eks.cluster_security_group_id
   cluster_name     = var.cluster_name
-  ssh_key     = module.ssh-keypair.ssh_key
+  ssh_key          = module.ssh-keypair.ssh_key
   vpc_id           = module.networking.vpc_id
   lt_instance_type = var.lt_instance_type
   b64_cluster_ca   = module.eks.cluster_certificate_authority_data
@@ -69,8 +69,8 @@ module "self-managed-node-group" {
   asg_min_size       = var.asg_min_size
   private_subnet_ids = local.private_subnet_ids
   #ec2_sg_id_for_ssh = module.ec2.ec2_sg_id_for_ssh
-  eks_node_role = module.eks.eks_node_role
-  eks_node_sg_id = module.eks.eks_node_sg_id
+  eks_node_role             = module.eks.eks_node_role
+  eks_node_sg_id            = module.eks.eks_node_sg_id
   eks_node_instance_profile = module.eks.eks_node_instance_profile
 
   depends_on = [
@@ -132,8 +132,8 @@ module "ec2" {
   source = "./modules/ec2"
 
   one_public_subnet = module.networking.public_subnet_aza
-  cluster_name = var.cluster_name
-  vpc_id = module.networking.vpc_id
-  ssh_key = module.ssh-keypair.ssh_key
+  cluster_name      = var.cluster_name
+  vpc_id            = module.networking.vpc_id
+  ssh_key           = module.ssh-keypair.ssh_key
 
 }

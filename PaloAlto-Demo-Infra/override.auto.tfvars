@@ -33,7 +33,7 @@ lt_instance_type = "t3.large"
 
 cluster_name = "PaloAlto-Craft-Demo"
 #eks_version      = "1.18.9"
-public_anywhere  = "0.0.0.0/0"
+public_anywhere = "0.0.0.0/0"
 #alb_cert_arn     = ""
 asg_desired_size = 2
 asg_max_size     = 5
