@@ -1,10 +1,12 @@
 #
-# EKS Cluster Resources
-#  * IAM Role to allow EKS service to manage other AWS services
-#  * EC2 Security Group to allow networking traffic with EKS cluster
-#  * EKS Cluster
+# Resources Created
+#  * IAM Role to allow EKS to manage other AWS services
+#  * IAM Role to allow EC2 to manage other AWS services
+#  * EC2 Security Group to allow networking traffic with EKS cluster and worker nodes
+#  * Create EKS Cluster and Install other dependencies
 #
 
+#EKS Cluster IAM Role Creation
 resource "aws_iam_role" "eks-cluster" {
   name = "${var.cluster_name}-cluster-role"
 
@@ -35,8 +37,9 @@ resource "aws_iam_role_policy_attachment" "eks-cluster-AmazonEKSServicePolicy" {
   role       = aws_iam_role.eks-cluster.name
 }
 
-#####EKS Node IAM Role Creation######
 
+
+#EKS Node IAM Role Creation######
 
 resource "aws_iam_role" "eks-node" {
   name = "${var.cluster_name}-node-role"
@@ -115,8 +118,7 @@ resource "aws_iam_instance_profile" "eks-node" {
   #role = var.eks_node_role
 }
 
-###### EKS Cluster SG#####
-
+#EKS Cluster Security #####
 resource "aws_security_group" "eks-cluster" {
   name        = "${var.cluster_name}-cluster-sg"
   description = "Cluster communication with worker nodes"
@@ -167,7 +169,6 @@ resource "aws_security_group_rule" "eks-cluster-ingress-node-kube" {
 
 
 ### EKS Node Security Group ####
-
 resource "aws_security_group" "eks-node" {
   name        = "${var.cluster_name}-node-sg"
   description = "Security group for all nodes in the cluster"
@@ -225,24 +226,8 @@ resource "aws_security_group_rule" "eks-node-ingress-ssh" {
   to_port                  = 22
   type                     = "ingress"
 }
-#resource "aws_security_group_rule" "eks-cluster-ingress-workstation-https" {
-  # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
-  # force an interpolation expression to be interpreted as a list by wrapping it
-  # in an extra set of list brackets. That form was supported for compatibility in
-  # v0.11, but is no longer supported in Terraform v0.12.
-  #
-  # If the expression in the following list itself returns a list, remove the
-  # brackets to avoid interpretation as a list of lists. If the expression
-  # returns a single list item then leave it as-is and remove this TODO comment.
-  #cidr_blocks       = [local.workstation-external-cidr]
-  #description       = "Allow workstation to communicate with the cluster API Server"
-  #from_port         = 443
-  #protocol          = "tcp"
-  #security_group_id = aws_security_group.eks-cluster.id
-  #to_port           = 443
-  #type              = "ingress"
-#}
 
+#Creating EKS Cluster
 resource "aws_eks_cluster" "eks" {
   name     = var.cluster_name
   role_arn = aws_iam_role.eks-cluster.arn
@@ -261,7 +246,7 @@ resource "aws_eks_cluster" "eks" {
   ]
 }
 
-
+#Configure AWS-Auth CM and Provide permission to Node Role
 resource "null_resource" "aws_auth_update" {
 
   provisioner "local-exec" {
@@ -272,3 +257,28 @@ resource "null_resource" "aws_auth_update" {
     aws_eks_cluster.eks,
   ]
 }
+
+#Update kubeconfig to local
+resource "null_resource" "update_kubeconfig" {
+
+  provisioner "local-exec" {
+    command = "aws eks --region ${var.location} update-kubeconfig --name ${var.cluster_name}"
+  }
+
+  depends_on = [
+    null_resource.aws_auth_update,
+  ]
+}
+
+#Install Metric Server
+resource "null_resource" "install_metrics_server" {
+
+  provisioner "local-exec" {
+    command = "kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml"
+  }
+
+  depends_on = [
+    null_resource.update_kubeconfig,
+  ]
+}
+

@@ -1,3 +1,9 @@
+#
+# Resources Created
+#  * Create Bastion Instance, Security Group and other dependencies
+#
+
+#Fetching Ubuntu AMI
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -14,6 +20,7 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+#Creating EC2 Security Group
 resource "aws_security_group" "ec2" {
   name        = "${var.cluster_name}-ec2-sg"
   description = "Cluster communication with worker nodes"
@@ -42,6 +49,7 @@ resource "aws_security_group_rule" "ec2-ssh" {
   type                     = "ingress"
 }
 
+#Creating ENI
 resource "aws_network_interface" "foo" {
   subnet_id   = var.one_public_subnet
   security_groups = [aws_security_group.ec2.id]
@@ -50,6 +58,7 @@ resource "aws_network_interface" "foo" {
   }
 }
 
+#Creating instance
 resource "aws_instance" "bastion-host" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"

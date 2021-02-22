@@ -33,6 +33,10 @@ variable "ec2_sg_id_for_ssh" {
   description = ""
 }
 
+variable "location" {
+  description = "The AWS Region in which the resources in this example should exist"
+}
+
 #variable "eks_node_role" {
 #  description = "EKS Node Role"
 #}

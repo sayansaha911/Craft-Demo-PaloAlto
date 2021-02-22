@@ -21,7 +21,7 @@ resource "aws_internet_gateway" "internet-gw" {
   }
 }
 
-# Creating public Subnet in one AZ and assigning IP CIDR to them
+# Creating public Subnet in two AZ and assigning IP CIDR to them
 resource "aws_subnet" "public_subnet" {
   count = 2
   vpc_id                  = aws_vpc.primary.id
@@ -34,7 +34,7 @@ resource "aws_subnet" "public_subnet" {
   }
 }
 
-# Creating private Subnet in each AZ and assigning IP CIDR to them
+# Creating private Subnet in two AZ and assigning IP CIDR to them
 resource "aws_subnet" "private_subnet_az" {
   count  =  2
   vpc_id                  = aws_vpc.primary.id
@@ -46,29 +46,6 @@ resource "aws_subnet" "private_subnet_az" {
     Name = "Private Subnet"
   }
 }
-
-#
-#resource "aws_subnet" "private_subnet_azb" {
-#  vpc_id                  = aws_vpc.primary.id
-#  cidr_block              = var.private_subnet_azb_cidr
-#  availability_zone       = data.aws_availability_zones.available.names[1]
-#  map_public_ip_on_launch = false
-
-#  tags = {
-#    Name = "Private Subnet AZ-B"
-#  }
-#}
-
-#resource "aws_subnet" "private_subnet_azc" {
-#  vpc_id                  = aws_vpc.primary.id
-#  cidr_block              = var.private_subnet_azc_cidr
-#  availability_zone       = data.aws_availability_zones.available.names[2]
-#  map_public_ip_on_launch = false
-
-#  tags = {
-#    Name = "Private Subnet AZ-C"
-#  }
-#}
 
 # Creating Elastic IP for NAT Gateway 
 resource "aws_eip" "nat" {
@@ -127,21 +104,3 @@ resource "aws_route_table_association" "private" {
   subnet_id      = aws_subnet.private_subnet_az[count.index].id
   route_table_id = aws_route_table.pvt_rt.id
 }
-
-
-
-# Associating Private Route Table with Private Subnets
-#resource "aws_route_table_association" "private1" {
-#  subnet_id      = aws_subnet.private_subnet_aza.id
-#  route_table_id = aws_route_table.pvt_rt.id
-#}
-
-#resource "aws_route_table_association" "private2" {
-#  subnet_id      = aws_subnet.private_subnet_azb.id
-#  route_table_id = aws_route_table.pvt_rt.id
-#}
-
-#resource "aws_route_table_association" "private3" {
-#  subnet_id      = aws_subnet.private_subnet_azc.id
-#  route_table_id = aws_route_table.pvt_rt.id
-#}

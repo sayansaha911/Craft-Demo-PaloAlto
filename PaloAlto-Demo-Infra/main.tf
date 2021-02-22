@@ -32,6 +32,7 @@ module "eks" {
   #eks_node_sg_id = module.self-managed-node-group.eks_node_sg_id
   #eks_node_role = module.self-managed-node-group.eks_node_role
   ec2_sg_id_for_ssh = module.ec2.ec2_sg_id_for_ssh
+  location = var.location
 
    
 }
