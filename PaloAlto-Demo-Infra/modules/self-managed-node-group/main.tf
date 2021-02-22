@@ -21,7 +21,7 @@ resource "aws_launch_template" "eks-ng-lt" {
   instance_type = var.lt_instance_type
   key_name      = var.ssh_key
   user_data     = base64encode(local.eks-node-userdata)
-  image_id      = "ami-04fd70f2aa0a10192"
+  image_id      = var.eks_ami_id
   vpc_security_group_ids             = [var.eks_node_sg_id]
   iam_instance_profile {
     name = var.eks_node_instance_profile

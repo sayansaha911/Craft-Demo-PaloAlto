@@ -117,7 +117,7 @@ NOTE: Before the code is deployed please complete the pre-requisites from the pr
 
 # Webapp provisioning
     
-1. Once the infrstructure is provisioned, navigate to the PaloAlto-Demo-Infra/app-code directory
+1. Once the infrstructure is provisioned, navigate to the PaloAlto-Demo-App/app-code directory
 
 2. Compile the go code by running below and 
         
@@ -129,7 +129,7 @@ NOTE: Before the code is deployed please complete the pre-requisites from the pr
         
         helm install demo-app ./helm-install/. --set image.repository=$app-name:$app-version
 
-6. OR Instead of running Steps 2,3 and 4, you can alternatively run the app-deploy.sh with the necessary inputs and it will do all those for you
+6. OR Instead of running Steps 2,3 and 4, you can alternatively run "app-deploy.sh" with the necessary inputs and it will do all those for you
 7. Verify the webapp deployment by running "kubectl get deployment" and the webapp demo-app should show here
 8. Also verify hpa by running "kubectl get hpa"
 9. Once confirmed fetch the ALB DNS name by running "terraform output"

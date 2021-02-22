@@ -5,20 +5,10 @@ variable "vpc_id" {
   type = string
 }
 
-#variable "private_subnet_ids" {
-#  description = "VPC private subnet ids"
-#  type        = list(string)
-#}
-
 variable "public_subnet_ids" {
   description = "VPC public subnet ids"
   type        = list(string)
 }
-
-#variable "all_subnet_ids" {
-#  description = "VPC all subnet ids"
-#  type        = list(string)
-#}
 
 variable "cluster_name" {
   description = "Name for the EKS cluster"
@@ -26,11 +16,6 @@ variable "cluster_name" {
 }
 
 ##################################################################
-
-#variable "alb_cert_arn" {
-#  description = "ARN for certificate to be used for https"
-#  type = string
-#}
 
 variable "public_anywhere" {
   description = "Public access"

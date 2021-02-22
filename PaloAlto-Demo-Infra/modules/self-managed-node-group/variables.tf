@@ -7,11 +7,6 @@ variable "cluster_name" {
   description = "specify the EKS cluster name"
 }
 
-#variable "eks_version" {
-#  description = "EKS cluster K8s version"
-#  type = number
-#}
-
 variable eks_cluster_sg {
   type = string
   description = "EKS Cluster SG"
@@ -61,10 +56,6 @@ variable "private_subnet_ids" {
   type = list(string)
 }
 
-#variable "ec2_sg_id_for_ssh" {
-#  description = "ec2 security group id from where ssh is permitted"
-#}
-
 variable "eks_node_role" {
   description = "EKS Node Role"
 }
@@ -75,5 +66,9 @@ variable "eks_node_sg_id" {
 
 variable "eks_node_instance_profile" {
   description = ""
+}
+
+variable "eks_ami_id" {
+  description = "ID of EKS AMI https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html"
 }
 
