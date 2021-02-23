@@ -1,9 +1,8 @@
 #
 # Resources Created
-#  * IAM Role to allow EKS to manage other AWS services
-#  * IAM Role to allow EC2 to manage other AWS services
-#  * EC2 Security Group to allow networking traffic with EKS cluster and worker nodes
-#  * Create EKS Cluster and Install other dependencies
+#  * ALB Security Group
+#  * ALB Listeners and Target Groups
+#  * Create ALB and attach to ASG
 #
 
 # Creating ALB Security Group

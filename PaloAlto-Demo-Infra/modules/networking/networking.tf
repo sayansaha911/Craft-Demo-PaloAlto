@@ -1,3 +1,12 @@
+#
+# Resources Created
+#  * VPC
+#  * Private and Public Subnets
+#  * IGW and NAT GW
+#  * Route Tables to Associate Subnets with IGW and NAT GW
+#
+
+
 # Fetching AZ Details from AWS
 data "aws_availability_zones" "available" {}
 
@@ -52,7 +61,7 @@ resource "aws_eip" "nat" {
   vpc = true
 }
 
-# Creating NAT Gateway from engress internet access to private subnet 
+# Creating NAT Gateway for internet access to private subnet 
 resource "aws_nat_gateway" "nat-gw" {
   allocation_id = aws_eip.nat.id
   subnet_id     = aws_subnet.public_subnet[0].id

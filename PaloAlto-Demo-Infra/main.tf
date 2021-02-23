@@ -20,9 +20,9 @@ module "networking" {
 module "eks" {
   source = "./modules/eks"
 
-  vpc_id = module.networking.vpc_id
-  all_subnet_ids = local.all_subnet_ids
-  cluster_name   = var.cluster_name
+  vpc_id            = module.networking.vpc_id
+  all_subnet_ids    = local.all_subnet_ids
+  cluster_name      = var.cluster_name
   ec2_sg_id_for_ssh = module.ec2.ec2_sg_id_for_ssh
   location          = var.location
 
@@ -44,18 +44,18 @@ module "ssh-keypair" {
 module "self-managed-node-group" {
   source = "./modules/self-managed-node-group"
 
-  eks_cluster_sg   = module.eks.cluster_security_group_id
-  cluster_name     = var.cluster_name
-  ssh_key          = module.ssh-keypair.ssh_key
-  eks_ami_id  = var.eks_ami_id
-  vpc_id           = module.networking.vpc_id
-  lt_instance_type = var.lt_instance_type
-  b64_cluster_ca   = module.eks.cluster_certificate_authority_data
-  api_server_url   = module.eks.cluster_api_server_url
-  asg_desired_size   = var.asg_desired_size
-  asg_max_size       = var.asg_max_size
-  asg_min_size       = var.asg_min_size
-  private_subnet_ids = local.private_subnet_ids
+  eks_cluster_sg            = module.eks.cluster_security_group_id
+  cluster_name              = var.cluster_name
+  ssh_key                   = module.ssh-keypair.ssh_key
+  eks_ami_id                = var.eks_ami_id
+  vpc_id                    = module.networking.vpc_id
+  lt_instance_type          = var.lt_instance_type
+  b64_cluster_ca            = module.eks.cluster_certificate_authority_data
+  api_server_url            = module.eks.cluster_api_server_url
+  asg_desired_size          = var.asg_desired_size
+  asg_max_size              = var.asg_max_size
+  asg_min_size              = var.asg_min_size
+  private_subnet_ids        = local.private_subnet_ids
   eks_node_role             = module.eks.eks_node_role
   eks_node_sg_id            = module.eks.eks_node_sg_id
   eks_node_instance_profile = module.eks.eks_node_instance_profile
@@ -71,9 +71,9 @@ module "self-managed-node-group" {
 module "alb" {
   source = "./modules/alb"
 
-  vpc_id = module.networking.vpc_id
+  vpc_id            = module.networking.vpc_id
   public_subnet_ids = local.public_subnet_ids
-  cluster_name = var.cluster_name
+  cluster_name      = var.cluster_name
 
   public_anywhere = var.public_anywhere
   asg_name        = module.self-managed-node-group.asg_name
