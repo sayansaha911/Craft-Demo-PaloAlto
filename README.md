@@ -30,7 +30,7 @@ This repo has codes to do the following tasks:
 
 3. A homebrewed simple CI/CD shell script which can:
         
-        a. Compile small changes in the Go code located at PaloAlto-Craft-Demo/PaloAlto-Demo-App/app-code http-sample.go
+        a. Compile small changes in the Go code located at Demo-Terraform-Project/Demo-App/app-code/http-sample.go
         
         b. Build a docker image based on these changes
         
@@ -72,7 +72,7 @@ https://docs.aws.amazon.com/eks/latest/userguide/install-aws-iam-authenticator.h
 8. Install helm
 https://helm.sh/docs/intro/install/
 
-9. Run "aws configure" and configure credentials, set region as "us-east-1". Note: If you wish to deploy to a different region then please update the "location" field in PaloAlto-Craft-Demo/PaloAlto-Demo-Infra/override.auto.tfvars as well.
+9. Run "aws configure" and configure credentials, set region as "us-east-1". Note: If you wish to deploy to a different region then please update the "location" field in Demo-Terraform-Project/Demo-Infra/override.auto.tfvars as well.
 
 10. Run "docker login" and authenticate to your image registry
 
@@ -85,8 +85,8 @@ NOTE: Before the code is deployed please complete the pre-requisites from the pr
 
 # Instrastructure Provisioning
 
-1. Clone this repo: git clone https://github.com/sayansaha911/PaloAlto-Craft-Demo.git
-2. Navigate to PaloAlto-Demo-Infra directory
+1. Clone this repo: git clone https://github.com/sayansaha911/Demo-Terraform-Project.git
+2. Navigate to Demo-Infra directory
 3. Run ssh-keygen and generate a key pair. This key pair will be used to access the EC2 instances
 4. Create a secret.auto.tfvars file with the below content
     
@@ -117,7 +117,7 @@ NOTE: Before the code is deployed please complete the pre-requisites from the pr
 
 # Webapp provisioning
     
-1. Once the infrstructure is provisioned, navigate to the PaloAlto-Demo-App/app-code directory
+1. Once the infrstructure is provisioned, navigate to the Demo-App/app-code directory
 
 2. Compile the go code by running below and 
         
