@@ -1,4 +1,4 @@
-# Craft-Demo-PaloAlto
+# Demo Terraform Project
 
 This repo has codes to do the following tasks:
 
